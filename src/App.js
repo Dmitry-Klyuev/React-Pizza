@@ -12,12 +12,14 @@ function App() {
                 <div className="container">
                     <div className="content__top">
                         <Categories/>
-                        <Sort />
+                        <Sort/>
                     </div>
                     <h2 className="content__title">Все пиццы</h2>
                     <div className="content__items">
-                    <PizzaBlock title='Мексиканская'
-                    price='9'/>
+                        <PizzaBlock title="Мексиканская"
+                                    price="9"/>
+                        <PizzaBlock title="4 сезона"
+                                    price="8"/>
                     </div>
                 </div>
             </div>
