@@ -1,5 +1,8 @@
+import {useState} from "react";
 
 export const PizzaBlock = ({title, price}) => {
+    const [count, setCount] = useState(0)
+
     return <div className="pizza-block">
         <img
             className="pizza-block__image"
@@ -21,7 +24,7 @@ export const PizzaBlock = ({title, price}) => {
         </div>
         <div className="pizza-block__bottom">
             <div className="pizza-block__price">от {price} р</div>
-            <div className="button button--outline button--add">
+            <button className="button button--outline button--add" onClick={()=>setCount(count + 1)}>
                 <svg
                     width="12"
                     height="12"
@@ -34,9 +37,9 @@ export const PizzaBlock = ({title, price}) => {
                         fill="white"
                     />
                 </svg>
-                <span>Добавить</span>
-                <i>2</i>
-            </div>
+                <span >Добавить</span>
+                <i>{count}</i>
+            </button>
         </div>
     </div>
 }
