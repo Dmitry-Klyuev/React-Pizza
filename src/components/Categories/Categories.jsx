@@ -7,12 +7,13 @@ export const Categories = () => {
 
     return <div className="categories">
         <ul>
-            {categories.map((el, index) => {
-                return <li className={active === index && 'active'}
-                           onClick={() => setActive(index)}>
+            {categories.map((el, index) => (
+                <li key={index}
+                    className={active === index ? 'active' : undefined}
+                    onClick={() => setActive(index)}>
                     {el}
-                </li>;
-            })}
+                </li>
+                ))}
             {/*<li className={active === 0 && 'active'} onClick={()=>setActive(0)}>Все</li>*/}
             {/*<li className={active === 1 && 'active'} onClick={()=>setActive(1)}>Мясные</li>*/}
             {/*<li className={active === 2 && 'active'} onClick={()=>setActive(2)}>Вегетарианская</li>*/}
