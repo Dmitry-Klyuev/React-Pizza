@@ -15,7 +15,7 @@ export const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
         <div className="pizza-block__selector">
             <ul>
                 {types.map((el, index) => (
-                    <li key={index}
+                    <li key={el.id}
                         className={type === index ? 'active' : undefined}
                         onClick={() => setType(index)}>
                         {el === 0 ? 'тонкое' : 'толстое'}
@@ -24,7 +24,7 @@ export const PizzaBlock = ({title, price, imageUrl, sizes, types}) => {
             </ul>
             <ul>
                 {sizes.map((el, index) => (
-                    <li key={index}
+                    <li key={el.id}
                         className={size === index ? 'active' : undefined}
                         onClick={() => setSize(index)}>
                         {el} см.

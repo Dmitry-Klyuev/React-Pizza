@@ -1,6 +1,16 @@
+import {useState} from "react";
 
 export const Sort = () => {
-    return <div className="sort">
+    const [activePopup, setActivePopup] = useState(false);
+    const [popValue, setPopValue] = useState('популярности');
+
+    const sort = ['популярности', 'цене', 'алфавиту'];
+    const popupValue = (el) => {
+        setPopValue(el);
+        setActivePopup(false);
+    };
+
+    return <div className="sort" onBlur={() => setPopValue(false)}>
         <div className="sort__label">
             <svg
                 width="10"
@@ -15,14 +25,21 @@ export const Sort = () => {
                 />
             </svg>
             <b>Сортировка по:</b>
-            <span>популярности</span>
+            <span onClick={() => setActivePopup(!activePopup)}>{popValue}</span>
         </div>
-        <div className="sort__popup">
-            <ul>
-                <li className="active">популярности</li>
-                <li>цене</li>
-                <li>алфавиту</li>
-            </ul>
-        </div>
-    </div>
-}
+        {activePopup && (<div className="sort__popup">
+                <ul>
+                    {sort.map(el => (
+                        <li
+                            key={el}
+                            className={el === popValue ? "active" : null}
+                            onClick={() => popupValue(el)}
+                        >
+                            {el}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        )}
+    </div>;
+};
