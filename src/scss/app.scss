@@ -24,15 +24,28 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      grid-column-gap: 25px;
+    
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 15px;
+    }
+    @media (max-width: 780px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: 830px){
+      flex-direction: column-reverse;
+    }
   }
 }
 
