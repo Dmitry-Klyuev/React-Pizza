@@ -1,0 +1,35 @@
+.root {
+  ul {
+    display: flex;
+
+    a {
+      display: block;
+      width: 40px;
+      height: 40px;
+      padding: 5px;
+      border: 1px solid #FE7C4A;
+      margin: 5px;
+      border-radius: 50px;
+      text-align: center;
+      cursor: pointer;
+      color: #FE7C4A;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    :hover {
+      background: #FE7C4A;
+      border-radius: 50%;
+      cursor: pointer;
+      color: #ffffff;
+
+    }
+  }
+
+  .active {
+    a {
+      background: #FE7C4A;
+      color: #ffffff;
+    }
+  }
+}

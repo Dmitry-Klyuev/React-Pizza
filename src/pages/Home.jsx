@@ -3,6 +3,7 @@ import {Categories} from "../components/Categories/Categories";
 import {Sort} from "../components/Sort/Sort";
 import PizzaSkeleton from "../components/PizzaBlock/PizzaSkeleton";
 import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
+import {Pagination} from "../components/Pagination/Pagination";
 
 
 export const Home = ({searchValue}) => {
@@ -10,6 +11,7 @@ export const Home = ({searchValue}) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const [activeCategories, setActiveCategories] = React.useState(0);
     const [activeSort, setActiveSort] = React.useState('популярности ↓');
+    const [currentPagination, setCurrentPagination] = React.useState(1)
 
     const sort = ['популярности ↓', 'популярности ↑', 'цене ↓' ,'цене ↑', 'алфавиту ↓' , 'алфавиту ↑'];
     const sortCategory = activeCategories > 0 ? `category=${activeCategories}` : '';
@@ -30,15 +32,17 @@ export const Home = ({searchValue}) => {
     }
     const search = searchValue ? `search=${searchValue}` : '';
 
+    const paginationPage = `limit=4&page=${currentPagination}`
+
     React.useEffect(() => {
         setIsLoading(true);
-        fetch(`https://6314e211fa82b738f7501ac3.mockapi.io/items?${sortBy}&${search}&${sortCategory}`)
+        fetch(`https://6314e211fa82b738f7501ac3.mockapi.io/items?${sortBy}&${search}&${sortCategory}&${paginationPage}`)
             .then(res => res.json())
             .then((data) => {
                 setItems(data);
                 setIsLoading(false);
             });
-    }, [activeSort, activeCategories, searchValue]);
+    }, [activeSort, activeCategories, searchValue, currentPagination]);
 
     return (
         <>
@@ -56,12 +60,16 @@ export const Home = ({searchValue}) => {
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
                 {isLoading
-                    ? [...new Array(8)].map((el, index) => <PizzaSkeleton key={index}/>)
+                    ? [...new Array(4)].map((el, index) => <PizzaSkeleton key={index}/>)
                     : items.map((el, index) => (
                         <PizzaBlock {...el}
                                     key={index}/>
                     ))}
             </div>
+            <Pagination
+                currentPagination={currentPagination}
+                setCurrentPagination={setCurrentPagination}
+            />
         </>
     );
 };
