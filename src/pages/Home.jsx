@@ -6,32 +6,22 @@ import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
 import {Pagination} from "../components/Pagination/Pagination";
 import {SearchContext} from "../App";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategoryId, setActiveSort} from "../features/filterSlice";
+import {setCategoryId} from "../features/filterSlice";
 
 
 export const Home = () => {
-    const categoryId = useSelector(state => state.filterSlice.categoryId)
-    const activeSort = useSelector(state => state.filterSlice.sort)
+    const {categoryId, sort} = useSelector(state => state.filterSlice)
     const dispatch = useDispatch();
-
 
     const {searchValue} = React.useContext(SearchContext)
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     const [currentPagination, setCurrentPagination] = React.useState(1)
-    const sort = [
-        {name: 'популярности ↓', sortProperty: 'rating',},
-        {name: 'популярности ↑', sortProperty: 'rating&order=desc',},
-        {name: 'цене ↓', sortProperty: 'price',},
-        {name: 'цене ↑', sortProperty: 'price&order=desc',},
-        {name: 'алфавиту ↓', sortProperty: 'title',},
-        {name: 'алфавиту ↑', sortProperty: 'title&order=desc',},
-    ]
+
+    //generate get params
     const sortCategory = categoryId > 0 ? `category=${categoryId}` : '';
-    const sortBy = `sortBy=${activeSort.sortProperty}`
-
+    const sortBy = `sortBy=${sort.sortProperty}`
     const search = searchValue ? `search=${searchValue}` : '';
-
     const paginationPage = `limit=4&page=${currentPagination}`
 
     React.useEffect(() => {
@@ -42,7 +32,7 @@ export const Home = () => {
                 setItems(data);
                 setIsLoading(false);
             });
-    }, [activeSort, categoryId, searchValue, currentPagination]);
+    }, [sortCategory, sortBy, search, paginationPage]);
 
     return (
         <>
@@ -51,11 +41,7 @@ export const Home = () => {
                     activeCategories={categoryId}
                     setActiveCategories={(i) => dispatch(setCategoryId(i))}
                 />
-                <Sort
-                    activeSort={activeSort.name}
-                    setActiveSort={(i) => dispatch(setActiveSort(i))}
-                    sort={sort}
-                />
+                <Sort />
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">

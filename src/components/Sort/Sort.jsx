@@ -1,15 +1,28 @@
 import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {setActiveSort} from "../../features/filterSlice";
 
-export const Sort = ({activeSort, setActiveSort, sort}) => {
+export const Sort = () => {
+    const activeSort = useSelector(state => state.filterSlice.sort)
+    const dispatch = useDispatch();
     const [activePopup, setActivePopup] = useState(false);
 
+    const sort = [
+        {name: 'популярности ↓', sortProperty: 'rating',},
+        {name: 'популярности ↑', sortProperty: 'rating&order=desc',},
+        {name: 'цене ↓', sortProperty: 'price',},
+        {name: 'цене ↑', sortProperty: 'price&order=desc',},
+        {name: 'алфавиту ↓', sortProperty: 'title',},
+        {name: 'алфавиту ↑', sortProperty: 'title&order=desc',},
+    ]
 
-    const popupValue = (i) => {
-        setActiveSort(i);
+    const popupValue = (obj) => {
+        console.log(obj)
+        dispatch(setActiveSort(obj));
         setActivePopup(false);
     };
 
-    return <div className="sort" onBlur={() => setActiveSort(false)}>
+    return <div className="sort" onBlur={() => setActivePopup(false)}>
         <div className="sort__label">
             <svg
                 width="10"
@@ -24,14 +37,14 @@ export const Sort = ({activeSort, setActiveSort, sort}) => {
                 />
             </svg>
             <b>Сортировка по:</b>
-            <span onClick={() => setActivePopup(!activePopup)}>{activeSort}</span>
+            <span onClick={() => setActivePopup(!activePopup)}>{activeSort.name}</span>
         </div>
         {activePopup && (<div className="sort__popup">
                 <ul>
                     {sort.map((el, index) => (
                         <li
                             key={index}
-                            className={el.name === activeSort ? "active" : null}
+                            className={el.name === activeSort.name ? "active" : null}
                             onClick={() => popupValue(el)}
                         >
                             {el.name}

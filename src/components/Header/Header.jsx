@@ -5,7 +5,8 @@ import {useContext} from "react";
 import {SearchContext} from "../../App";
 
 export const Header = () => {
-    const {searchValue ,setSearchValue} = useContext(SearchContext)
+    console.log('render')
+    const {searchValue, setSearchValue} = useContext(SearchContext)
     return <div className="header">
         <div className="container">
             <Link to={'/'}>

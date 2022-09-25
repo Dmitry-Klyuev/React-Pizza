@@ -4,7 +4,7 @@ import {Routes, Route} from "react-router-dom";
 import {Home} from "./pages/Home";
 import {Cart} from "./pages/Cart";
 import {NotFound} from "./pages/NotFound";
-import React, {useEffect} from 'react'
+import React from 'react'
 
 export const SearchContext = React.createContext({});
 

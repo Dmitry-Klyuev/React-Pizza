@@ -1,6 +1,7 @@
 import styles from './SearchInput.module.scss';
 
 export const SearchInput = ({searchValue, setSearchValue}) => {
+    console.log('search input is render')
     return (
         <div className={styles.root}>
             <svg className={styles.searchIcon}>
