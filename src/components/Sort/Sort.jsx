@@ -28,13 +28,13 @@ export const Sort = ({activeSort, setActiveSort, sort}) => {
         </div>
         {activePopup && (<div className="sort__popup">
                 <ul>
-                    {sort.map(el => (
+                    {sort.map((el, index) => (
                         <li
-                            key={el}
-                            className={el === activeSort ? "active" : null}
+                            key={index}
+                            className={el.name === activeSort ? "active" : null}
                             onClick={() => popupValue(el)}
                         >
-                            {el}
+                            {el.name}
                         </li>
                     ))}
                 </ul>

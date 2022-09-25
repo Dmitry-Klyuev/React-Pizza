@@ -5,33 +5,31 @@ import PizzaSkeleton from "../components/PizzaBlock/PizzaSkeleton";
 import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
 import {Pagination} from "../components/Pagination/Pagination";
 import {SearchContext} from "../App";
+import {useDispatch, useSelector} from "react-redux";
+import {setCategoryId, setActiveSort} from "../features/filterSlice";
 
 
 export const Home = () => {
+    const categoryId = useSelector(state => state.filterSlice.categoryId)
+    const activeSort = useSelector(state => state.filterSlice.sort)
+    const dispatch = useDispatch();
+
+
     const {searchValue} = React.useContext(SearchContext)
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-    const [activeCategories, setActiveCategories] = React.useState(0);
-    const [activeSort, setActiveSort] = React.useState('популярности ↓');
     const [currentPagination, setCurrentPagination] = React.useState(1)
+    const sort = [
+        {name: 'популярности ↓', sortProperty: 'rating',},
+        {name: 'популярности ↑', sortProperty: 'rating&order=desc',},
+        {name: 'цене ↓', sortProperty: 'price',},
+        {name: 'цене ↑', sortProperty: 'price&order=desc',},
+        {name: 'алфавиту ↓', sortProperty: 'title',},
+        {name: 'алфавиту ↑', sortProperty: 'title&order=desc',},
+    ]
+    const sortCategory = categoryId > 0 ? `category=${categoryId}` : '';
+    const sortBy = `sortBy=${activeSort.sortProperty}`
 
-    const sort = ['популярности ↓', 'популярности ↑', 'цене ↓' ,'цене ↑', 'алфавиту ↓' , 'алфавиту ↑'];
-    const sortCategory = activeCategories > 0 ? `category=${activeCategories}` : '';
-
-    let sortBy = ''
-    switch (activeSort) {
-        case 'популярности ↓': sortBy = 'sortBy=rating'
-            break;
-        case 'популярности ↑': sortBy = 'sortBy=rating&order=desc'
-            break
-        case 'цене ↓': sortBy = 'sortBy=price'
-            break
-        case 'цене ↑' : sortBy = 'sortBy=price&order=desc'
-            break
-        case 'алфавиту ↓' : sortBy = 'sortBy=title'
-            break
-        case 'алфавиту ↑' : sortBy = 'sortBy=title&order=desc'
-    }
     const search = searchValue ? `search=${searchValue}` : '';
 
     const paginationPage = `limit=4&page=${currentPagination}`
@@ -44,18 +42,18 @@ export const Home = () => {
                 setItems(data);
                 setIsLoading(false);
             });
-    }, [activeSort, activeCategories, searchValue, currentPagination]);
+    }, [activeSort, categoryId, searchValue, currentPagination]);
 
     return (
         <>
             <div className="content__top">
                 <Categories
-                    activeCategories={activeCategories}
-                    setActiveCategories={(i) => setActiveCategories(i)}
+                    activeCategories={categoryId}
+                    setActiveCategories={(i) => dispatch(setCategoryId(i))}
                 />
                 <Sort
-                    activeSort={activeSort}
-                    setActiveSort={(i)=>setActiveSort(i)}
+                    activeSort={activeSort.name}
+                    setActiveSort={(i) => dispatch(setActiveSort(i))}
                     sort={sort}
                 />
             </div>
