@@ -9,16 +9,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {setCategoryId} from "../features/filterSlice";
 import axios from "axios";
 import {useDebounce} from "use-debounce";
+import qs from "qs";
+import {useNavigate, useParams, useSearchParams} from 'react-router-dom'
 
 export const Home = () => {
     const {categoryId, activeSort} = useSelector(state => state.filterSlice)
     const currentPaginationPage = useSelector(state => state.filterSlice.currentPaginatePage)
-    console.log(currentPaginationPage)
     const dispatch = useDispatch();
 
     const {searchValue} = React.useContext(SearchContext)
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
+
+    const navigate = useNavigate()
 
     //debounce
     const [searchURL] = useDebounce(searchValue, 1000);
@@ -29,6 +32,11 @@ export const Home = () => {
     const search = searchURL ? `search=${searchURL}` : '';
     const paginationPage = `limit=4&page=${currentPaginationPage}`
 
+
+    const param = useSearchParams()
+    console.log(param)
+
+
     React.useEffect(() => {
         setIsLoading(true);
         axios.get(`https://6314e211fa82b738f7501ac3.mockapi.io/items?${sortBy}&${search}&${sortCategory}&${paginationPage}`)
@@ -38,6 +46,17 @@ export const Home = () => {
             })
     }, [sortCategory, sortBy, search, paginationPage]);
 
+    //generate url get params
+    React.useEffect(() => {
+        const queryString = qs.stringify({
+            sortBy,
+            search,
+            sortCategory,
+            paginationPage
+        })
+        navigate(`?${queryString}`)
+    }, [sortCategory, sortBy, search, paginationPage])
+
     return (
         <>
             <div className="content__top">
@@ -45,7 +64,7 @@ export const Home = () => {
                     activeCategories={categoryId}
                     setActiveCategories={(i) => dispatch(setCategoryId(i))}
                 />
-                <Sort />
+                <Sort/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
@@ -56,7 +75,7 @@ export const Home = () => {
                                     key={index}/>
                     ))}
             </div>
-            <Pagination   />
+            <Pagination/>
         </>
     );
 };
