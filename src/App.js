@@ -9,7 +9,7 @@ import React from 'react'
 export const SearchContext = React.createContext({});
 
 function App() {
-    const [searchValue, setSearchValue] = React.useState()
+    const [searchValue, setSearchValue] = React.useState('')
 
     return (
         <SearchContext.Provider value={{searchValue, setSearchValue}}>

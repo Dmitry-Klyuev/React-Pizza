@@ -1,9 +1,4 @@
-import {useDispatch, useSelector} from "react-redux";
-import {setCategoryId} from "../../features/filterSlice";
-
-
 export const Categories = ({activeCategories, setActiveCategories}) => {
-
     const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 
     return <div className="categories">

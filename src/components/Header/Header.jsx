@@ -1,12 +1,8 @@
 import PizzaLogo from '../../assets/img/pizza-logo.svg';
 import {Link} from "react-router-dom";
 import {SearchInput} from "../SearchInput/SearchInput";
-import {useContext} from "react";
-import {SearchContext} from "../../App";
 
 export const Header = () => {
-    console.log('render')
-    const {searchValue, setSearchValue} = useContext(SearchContext)
     return <div className="header">
         <div className="container">
             <Link to={'/'}>
@@ -19,7 +15,7 @@ export const Header = () => {
                 </div>
             </Link>
 
-            <SearchInput searchValue={searchValue} setSearchValue={setSearchValue}/>
+            <SearchInput/>
             <Link to={'cart'}>
                 <div className="header__cart">
                     <div className="button button--cart">
