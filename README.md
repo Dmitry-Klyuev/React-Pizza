@@ -10,6 +10,7 @@
 <li>Debounce</li>
 <li>Axios</li>
 <li>qs.js</li>
+<li>Pagination</li>
 </ul>
 
 

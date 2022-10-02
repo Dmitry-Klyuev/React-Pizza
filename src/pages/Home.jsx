@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Categories} from "../components/Categories/Categories";
 import {Sort} from "../components/Sort/Sort";
 import PizzaSkeleton from "../components/PizzaBlock/PizzaSkeleton";
@@ -6,11 +6,13 @@ import {PizzaBlock} from "../components/PizzaBlock/PizzaBlock";
 import {Pagination} from "../components/Pagination/Pagination";
 import {SearchContext} from "../App";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategoryId} from "../features/filterSlice";
+import {setCategoryId, SetCurrenPaginatePage, setCurrentFilter} from "../features/filterSlice";
 import axios from "axios";
 import {useDebounce} from "use-debounce";
 import qs from "qs";
-import {useNavigate, useParams, useSearchParams} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
+
+
 
 export const Home = () => {
     const {categoryId, activeSort} = useSelector(state => state.filterSlice)
@@ -32,9 +34,16 @@ export const Home = () => {
     const search = searchURL ? `search=${searchURL}` : '';
     const paginationPage = `limit=4&page=${currentPaginationPage}`
 
+    useEffect(()=>{
+        if(qs.parse(window.location.search.substring(1))){
+            const querySearch = qs.parse(window.location.search.substring(1))
+            console.log(querySearch)
+            dispatch(setCurrentFilter({categoryId: querySearch.category, currentPaginatePage: querySearch.page, activeSort: {sort: querySearch.sortBy}}))
+        }
+    }, [])
 
-    const param = useSearchParams()
-    console.log(param)
+
+
 
 
     React.useEffect(() => {
@@ -49,22 +58,23 @@ export const Home = () => {
     //generate url get params
     React.useEffect(() => {
         const queryString = qs.stringify({
-            sortBy,
-            search,
-            sortCategory,
-            paginationPage
+            sortBy: activeSort.sortProperty,
+            category: categoryId,
+            page: currentPaginationPage,
         })
         navigate(`?${queryString}`)
     }, [sortCategory, sortBy, search, paginationPage])
 
     return (
         <>
+
             <div className="content__top">
                 <Categories
                     activeCategories={categoryId}
                     setActiveCategories={(i) => dispatch(setCategoryId(i))}
                 />
                 <Sort/>
+
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
