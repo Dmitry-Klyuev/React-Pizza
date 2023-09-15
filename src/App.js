@@ -1,13 +1,13 @@
 import './scss/app.scss';
 import {Header} from "./components/Header/Header";
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Link, NavLink} from "react-router-dom";
 import {Home} from "./pages/Home";
 import {Cart} from "./pages/Cart";
 import {NotFound} from "./pages/NotFound";
-import React from 'react'
+import React, {useEffect} from 'react'
 
 export const SearchContext = React.createContext({});
-
+console.log()
 function App() {
     const [searchValue, setSearchValue] = React.useState('')
 
@@ -18,6 +18,7 @@ function App() {
                 <div className="content">
                     <div className="container">
                         <Routes>
+                            <Route path={'/React-Pizza'} element={<Home/>}/>
                             <Route path={'/'} element={<Home/>}/>
                             <Route path={'/cart'} element={<Cart/>}/>
                             <Route path={'*'} element={<NotFound/>}/>
